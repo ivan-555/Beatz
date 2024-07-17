@@ -1,0 +1,283 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --text-color: rgb(239, 239, 239);
+    --primary-color: rgb(22, 22, 35);
+    --secondary-color: rgb(29, 39, 59);
+    --accent-color: rgb(218, 64, 55);
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column; /* Content and Play Bar */
+    color: var(--text-color);
+}
+
+.content {
+    display: flex; /* Sidebar and Window */
+    flex-grow: 1; /* Takes the remaining height left by the Play Bar */
+}
+
+
+
+
+
+/* Sidebar */
+.content .sidebar{
+    width: 300px;
+    background: var(--primary-color);
+    font-size: 1.3rem;
+    padding: 20px 0;
+}
+
+.content .sidebar a{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.content .sidebar a:nth-child(1){
+    margin-bottom: 50px;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.content .sidebar a img{
+    width: 40px;
+    height: 40px;
+}
+
+.content .sidebar a:nth-child(1) img{
+    width: 60px;
+    height: unset;
+}
+
+.content .sidebar a:hover:not(:nth-child(1)){
+    background: var(--secondary-color);
+}
+
+.content .sidebar a.active i{
+    color: var(--accent-color); /* Highlights icon of active playlist */
+}
+
+
+
+
+/* Window */
+.content .window{
+    flex-grow: 1;
+    background: var(--primary-color);
+    padding: 50px;
+}
+
+.content .window .home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    height: 100%;
+}
+
+.content .window .home h1{
+    font-size: 7rem;
+    font-weight: 900;
+}
+
+.content .window .home img{
+    height: 300px;
+}
+
+.content .window .playlist .top{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+    border-bottom: 1px dotted var(--accent-color);
+}
+
+.content .window .playlist .top img{
+    width: 100px;
+    height: 100px;
+}
+
+.content .window .playlist .top .wrapper{ /* wrapper for Text */
+    display: flex; 
+    flex-direction: column;
+    font-size: 1.5rem;
+}
+
+.content .window .playlist .top .wrapper h2{
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--accent-color);
+}
+
+.content .window .playlist .songs a{
+    display: grid;
+    grid-template-columns: .5fr 1fr 2fr 2fr 50px; /* width of each column */
+    align-items: center;
+    font-size: 1.2rem;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.content .window .playlist.favoriten .songs a{
+    grid-template-columns: .5fr 1fr 2fr 2fr 1fr 20px; /* adds one more column for the X icon */
+}
+
+.content .window .playlist .songs a:hover{
+    background: var(--secondary-color);
+}
+
+.content .window .playlist .songs a img{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+
+
+
+
+/* Play Bar */
+.play-bar{
+    height: 100px;
+    background: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+    position: relative;
+}
+
+.play-bar .song{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.play-bar .song .cover img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.play-bar .song .info{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.play-bar .song .info span.name{
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.play-bar .song .info span.artist{
+    font-size: 0.9rem;
+}
+
+.play-bar .navigation{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    position: absolute; /* centers it so it doesnt shift around when the song name is long */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.play-bar .navigation .buttons{
+    display: flex;
+    gap: 20px;
+}
+
+.play-bar .navigation .buttons button{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: white;
+    font-size: .9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+}
+
+
+.play-bar .navigation .wrapper{ /* wrapper for the progress bar and time stamps */
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.play-bar .navigation .progress-bar{
+    width: 500px;
+    height: 4px;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.play-bar .navigation .progress-bar .progress{
+    height: 100%;
+    width: 0%; /* initial state */
+    background: var(--accent-color);
+    transition: width 0.1s linear;
+}
+
+.play-bar .controls{
+    display: flex;
+    gap: 25px;
+}
+
+.play-bar .controls i{
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: white;
+}
+
+.play-bar .controls i.fa-heart {
+    transition: color 0.3s ease;
+}
+
+.play-bar .controls i.fa-heart.animated {
+    animation: heartBeat 0.6s; /* animated class is added onclick by js and plays heartBeat animation */
+}
+
+.play-bar .controls i.fa-heart.favorited {
+    color: red; /* favorited class is added if song is in favorites playlist by js */
+}
+
+@keyframes heartBeat {
+    0%, 20%, 50%, 80%, 100% {
+        transform: scale(1);
+    }
+    40% {
+        transform: scale(1.3);
+    }
+    60% {
+        transform: scale(1.3);
+    }
+}
