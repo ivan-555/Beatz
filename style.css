@@ -26,8 +26,8 @@ body{
 .content {
     display: flex; /* Sidebar and Window */
     flex-grow: 1; /* Takes the remaining height left by the Play Bar */
+    max-height: calc(100vh - 100px); /* 100px is the height of the Play Bar */
 }
-
 
 
 
@@ -62,6 +62,10 @@ body{
     height: 40px;
 }
 
+.content .sidebar a i{
+    transition: color .5s ease;
+}
+
 .content .sidebar a:nth-child(1) img{
     width: 60px;
     height: unset;
@@ -78,11 +82,13 @@ body{
 
 
 
+
 /* Window */
 .content .window{
     flex-grow: 1;
     background: var(--primary-color);
-    padding: 50px;
+    padding: 50px 50px 0 50px;
+    overflow: hidden; /* hides overflowing songs */
 }
 
 .content .window .home{
@@ -108,8 +114,9 @@ body{
     align-items: center;
     gap: 50px;
     padding-bottom: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     border-bottom: 1px dotted var(--accent-color);
+    height: 150px;
 }
 
 .content .window .playlist .top img{
@@ -129,13 +136,25 @@ body{
     color: var(--accent-color);
 }
 
+.content .window .playlist .songs{
+    overflow-y: auto; /* adds scrollbar if songs exceed the height */
+    max-height: calc(100vh - 340px); /* Adjust according to the size of other elements in the window */
+}
+
+/* Scrollbar Styling */
+.songs {
+    scrollbar-width: thin; /* Makes the scrollbar thinner */
+    scrollbar-color: var(--accent-color) var(--primary-color); /* Thumb color, track color */
+}
+
 .content .window .playlist .songs a{
     display: grid;
-    grid-template-columns: .5fr 1fr 2fr 2fr 50px; /* width of each column */
+    grid-template-columns: .5fr 1fr 2fr 2fr 70px; /* width of each column */
     align-items: center;
     font-size: 1.2rem;
     padding: 10px;
     margin-bottom: 10px;
+    transition: all 0.3s ease;
 }
 
 .content .window .playlist.favoriten .songs a{
@@ -165,6 +184,7 @@ body{
     justify-content: space-between;
     padding: 50px;
     position: relative;
+    border-top: 1px solid rgb(50, 42, 87);
 }
 
 .play-bar .song{
@@ -223,7 +243,6 @@ body{
     border: none;
     cursor: pointer;
 }
-
 
 .play-bar .navigation .wrapper{ /* wrapper for the progress bar and time stamps */
     display: flex;

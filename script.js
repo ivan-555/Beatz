@@ -14,6 +14,97 @@ document.addEventListener('DOMContentLoaded', () => {
                 cover: "img/covers/the-unforgiven.jpg",
                 src: "songs/the-unforgiven.mp4",
                 duration: "6:23"
+            },
+            {
+                title: "Der Himmel kann warten",
+                artist: "Böhse Onkelz",
+                cover: "img/covers/der-himmel-kann-warten.jpg",
+                src: "songs/der-himmel-kann-warten.mp3",
+                duration: "4:17"
+            },
+            {
+                title: "Castle of Glass",
+                artist: "Linkin Park",
+                cover: "img/covers/castle-of-glass.jpg",
+                src: "songs/castle-of-glass.mp3",
+                duration: "3:25"
+            },
+            {
+                title: "November Rain",
+                artist: "Guns N' Roses",
+                cover: "img/covers/november-rain.jfif",
+                src: "songs/november-rain.mp3",
+                duration: "9:00"
+            },
+            {
+                title: "Back In Black",
+                artist: "AC/DC",
+                cover: "img/covers/back-in-black.jpg",
+                src: "songs/back-in-black.mp3",
+                duration: "4:11"
+            },
+            {
+                title: "Perfect Strangers",
+                artist: "Deep Purple",
+                cover: "img/covers/perfect-strangers.jpg",
+                src: "songs/perfect-strangers.mp3",
+                duration: "5:24"
+            },
+            {
+                title: "Rock and Roll",
+                artist: "Led Zeppelin",
+                cover: "img/covers/rock-and-roll.jpg",
+                src: "songs/rock-and-roll.mp3",
+                duration: "3:40"
+            },
+            {
+                title: "Another Brick in the Wall",
+                artist: "Pink Floyd",
+                cover: "img/covers/another-brick-in-the-wall.webp",
+                src: "songs/another-brick-in-the-wall.mp3",
+                duration: "3:49"
+            },
+            {
+                title: "New Divide",
+                artist: "Linkin Park",
+                cover: "img/covers/new-divide.jpg",
+                src: "songs/new-divide.mp3",
+                duration: "4:28"
+            },
+            {
+                title: "Fade to Black",
+                artist: "Metallica",
+                cover: "img/covers/fade-to-black.jpg",
+                src: "songs/fade-to-black.mp3",
+                duration: "6:57"
+            },
+            {
+                title: "Burn it to the Ground",
+                artist: "Nickelback",
+                cover: "img/covers/burn-it-to-the-ground.jpg",
+                src: "songs/burn-it-to-the-ground.mp3",
+                duration: "3:32"
+            },
+            {
+                title: "Still Loving You",
+                artist: "Scorpions",
+                cover: "img/covers/still-loving-you.jpg",
+                src: "songs/still-loving-you.mp3",
+                duration: "4:47"
+            },
+            {
+                title: "Everlong",
+                artist: "Foo Fighters",
+                cover: "img/covers/everlong.jpg",
+                src: "songs/everlong.mp3",
+                duration: "4:51"
+            },
+            {
+                title: "Mr. Crowley",
+                artist: "Ozzy Osbourne",
+                cover: "img/covers/mr-crowley.jfif",
+                src: "songs/mr-crowley.mp3",
+                duration: "5:03"
             }
         ],
         edm: [
@@ -30,22 +121,134 @@ document.addEventListener('DOMContentLoaded', () => {
                 cover: "img/covers/a-light-that-never-comes.jpg",
                 src: "songs/a-light-that-never-comes.mp3",
                 duration: "3:57"
-            }
-        ],
-        blues: [
-            {
-                title: "All Along the Watchtower",
-                artist: "Jimmy Hendrix",
-                cover: "img/covers/all-along-the-watchtower.jpg",
-                src: "songs/all-along-the-watchtower.mp3",
-                duration: "4:01"
             },
             {
-                title: "Layla",
-                artist: "Eric Clapton",
-                cover: "img/covers/layla.jpg",
-                src: "songs/layla.mp4",
-                duration: "4:49"
+                title: "Monsoon Hardstyle",
+                artist: "VIZE",
+                cover: "img/covers/monsoon.jpg",
+                src: "songs/monsoon.mp3",
+                duration: "2:55"
+            },
+            {
+                title: "End The Lies",
+                artist: "Basshunter",
+                cover: "img/covers/end-the-lies.jpg",
+                src: "songs/end-the-lies.mp3",
+                duration: "2:46"
+            },
+            {
+                title: "Everytime We Touch",
+                artist: "Hardwell",
+                cover: "img/covers/everytime-we-touch.jfif",
+                src: "songs/everytime-we-touch.mp3",
+                duration: "3:36"
+            },
+            {
+                title: "Levels",
+                artist: "Avicii",
+                cover: "img/covers/levels.jpg",
+                src: "songs/levels.mp3",
+                duration: "3:18"
+            },
+            {
+                title: "The Nights",
+                artist: "Avicii",
+                cover: "img/covers/the-nights.jfif",
+                src: "songs/the-nights.mp3",
+                duration: "3:10"
+            },
+            {
+                title: "Wake Me Up",
+                artist: "Avicii",
+                cover: "img/covers/wake-me-up.png",
+                src: "songs/wake-me-up.mp3",
+                duration: "4:32"
+            },
+            {
+                title: "Stamp On The Ground",
+                artist: "ItaloBrothers",
+                cover: "img/covers/stamp-on-the-ground.jfif",
+                src: "songs/stamp-on-the-ground.mp3",
+                duration: "3:33"
+            },
+            {
+                title: "She Wolf",
+                artist: "David Guetta",
+                cover: "img/covers/she-wolf.jpg",
+                src: "songs/she-wolf.mp3",
+                duration: "3:57"
+            }
+        ],
+        relax: [
+            {
+                title: "Down By The River",
+                artist: "Milky Chance",
+                cover: "img/covers/down-by-the-river.jpg",
+                src: "songs/down-by-the-river.mp3",
+                duration: "3:49"
+            },
+            {
+                title: "All Summer Long",
+                artist: "Kid Rock",
+                cover: "img/covers/all-summer-long.jpg",
+                src: "songs/all-summer-long.mp3",
+                duration: "3:48"
+            },
+            {
+                title: "Cant Hold Us",
+                artist: "Macklemore",
+                cover: "img/covers/cant-hold-us.jpg",
+                src: "songs/cant-hold-us.mp3",
+                duration: "7:03"
+            },
+            {
+                title: "Riptide",
+                artist: "Vance Joy",
+                cover: "img/covers/riptide.jfif",
+                src: "songs/riptide.mp3",
+                duration: "3:24"
+            },
+            {
+                title: "Summer",
+                artist: "Calvin Harris",
+                cover: "img/covers/summer.jfif",
+                src: "songs/summer.mp3",
+                duration: "3:53"
+            },
+            {
+                title: "Memories",
+                artist: "David Guetta",
+                cover: "img/covers/memories.jpg",
+                src: "songs/memories.mp3",
+                duration: "3:28"
+            },
+            {
+                title: "Hymn for the Weekend",
+                artist: "Coldplay",
+                cover: "img/covers/hymn-for-the-weekend.jfif",
+                src: "songs/hymn-for-the-weekend.mp3",
+                duration: "4:20"
+            },
+            {
+                title: "Lovers on the Sun",
+                artist: "David Guetta",
+                cover: "img/covers/lovers-on-the-sun.jfif",
+                src: "songs/lovers-on-the-sun.mp3",
+                duration: "3:43"
+            },
+            {
+                title: "The Spectre",
+                artist: "Alan Walker",
+                cover: "img/covers/the-spectre.jfif",
+                src: "songs/the-spectre.mp3",
+                duration: "3:26"
+            },
+            {
+                title: "Paradise",
+                artist: "Coldplay",
+                cover: "img/covers/paradise.jfif",
+                src: "songs/paradise.mp3",
+                duration: "4:20"
             }
         ],
         favoriten: JSON.parse(localStorage.getItem('favoriten')) || []
