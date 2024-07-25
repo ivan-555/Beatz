@@ -1,4 +1,0 @@
-dark mode
-mobile
-highlight red current playing song
-page load animation
