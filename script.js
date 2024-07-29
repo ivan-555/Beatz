@@ -274,8 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let playingPlaylistName = '';
     let playingSong = null;
 
+    // loads the clicked song into the playBar and updates its information
     function loadSong(song) {
-        console.log("Loading song:", song);
         audioPlayer.src = song.src;
         coverImage.src = song.cover;
         coverImage.style.display = 'block'; // Show cover image
@@ -283,27 +283,59 @@ document.addEventListener('DOMContentLoaded', () => {
         songArtist.textContent = song.artist;
         durationElement.textContent = song.duration;
         playingSong = song;
-        localStorage.setItem('currentSong', JSON.stringify(song)); // Save current song to localStorage
+        localStorage.setItem('currentSong', JSON.stringify({
+            song: song,
+            playlist: playingPlaylistName,
+            index: currentSongIndex
+        })); // Save current song to localStorage
+
+        highlightPlayingSong(); // Highlight the playing song in its playlist
+        updatePlayingPlaylistIcon(); // Update the playing playlist icon
 
         // Ensure play button is updated correctly
-        playButton.innerHTML = '<i class="fas fa-play"></i>';
+        playButton.innerHTML = '<i class="fas fa-pause"></i>';
         // Update favorite button state
         updateFavoriteButtonState();
     }
 
-    function playSong() {
-        audioPlayer.play().then(() => {
-            playButton.innerHTML = '<i class="fas fa-pause"></i>';
-        }).catch(error => {
-            console.error("Error playing song:", error);
+    // function to highlight the currently playing song in its playlist
+    function highlightPlayingSong() {
+        document.querySelectorAll('.playlist .songs a').forEach(link => {
+            link.classList.remove('playing-song');
         });
+        const playingPlaylist = document.querySelector(`.playlist.${playingPlaylistName} .songs`);
+        if (playingPlaylist) {
+            const playingLink = playingPlaylist.children[currentSongIndex];
+            if (playingLink) {
+                playingLink.classList.add('playing-song');
+            }
+        }
     }
 
+    // function to update the playing playlist icon
+    function updatePlayingPlaylistIcon() {
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.classList.remove('playing');
+        });
+        const playingLink = document.querySelector(`.sidebar a[data-target="${playingPlaylistName}"]`);
+        if (playingLink) {
+            playingLink.classList.add('playing');
+        }
+    }
+
+    // function to play the song and change the play button icon
+    function playSong() {
+        audioPlayer.play();
+        playButton.innerHTML = '<i class="fas fa-pause"></i>';
+    }
+
+    // function to pause the song and change the play button icon
     function pauseSong() {
         audioPlayer.pause();
         playButton.innerHTML = '<i class="fas fa-play"></i>';
     }
 
+    // function to play the previous song in the playlist if there is one
     function prevSong() {
         if (currentSongIndex > 0) {
             currentSongIndex--;
@@ -312,6 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // function to play the next song in the playlist if there is one
     function nextSong() {
         if (currentSongIndex < currentPlaylist.length - 1) {
             currentSongIndex++;
@@ -320,38 +353,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    //removes and re-adds the event listener to the song links to prevent multiple event listeners and use the updated songClickHandler
     function updateSongLinks() {
         const songLinks = document.querySelectorAll('.playlist .songs a');
         songLinks.forEach((songLink, index) => {
-            songLink.removeEventListener('click', songClickHandler); // Remove existing listener
-            songLink.addEventListener('click', songClickHandler); // Add new listener
+            songLink.removeEventListener('click', songClickHandler);
+            songLink.addEventListener('click', songClickHandler);
         });
     }
 
+    // function to handle the click on a song link
     function songClickHandler(e) {
-        e.preventDefault();
-        const songLink = e.currentTarget;
-        const playlistClass = songLink.closest('.playlist').classList[1];
+        e.preventDefault(); // prevent the default behavior of the link (reload the page)
+        const songLink = e.currentTarget; // get the clicked link
+        const playlistClass = songLink.closest('.playlist').classList[1]; // get the class of the playlist of the clicked song link
         currentPlaylist = playlists[playlistClass];
         currentSongIndex = Array.from(songLink.closest('.songs').children).indexOf(songLink);
         playingPlaylistName = playlistClass;
 
-        // Check if song is defined
-        if (currentPlaylist[currentSongIndex]) {
-            console.log("Song clicked:", currentPlaylist[currentSongIndex]);
-            // Set the audio source and play the song
-            loadSong(currentPlaylist[currentSongIndex]);
-            playSong();
-        } else {
-            console.error("Song not found in playlist:", playlistClass, "Index:", currentSongIndex);
-        }
+        loadSong(currentPlaylist[currentSongIndex]);
+        playSong();
     }
 
+    // Add event listeners to the links (playlist names) in the sidebar
     links.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetClass = link.getAttribute('data-target');
-            console.log("Playlist clicked:", targetClass);
+            e.preventDefault(); // prevent the default behavior of the link (reload the page)
+            const targetClass = link.getAttribute('data-target'); // each link has a data-target attribute that contains the class of the section that should be shown in the window
 
             // Remove 'active' class from all links
             links.forEach(link => link.classList.remove('active'));
@@ -359,24 +387,22 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add 'active' class to the clicked link
             link.classList.add('active');
 
-            // Hide all sections
+            // Hide all sections (playlists) in the window
             sections.forEach(section => {
                 section.style.display = 'none';
             });
 
             // Show the target section with appropriate display style
-            const targetSection = document.querySelector(`.${targetClass}`);
+            const targetSection = document.querySelector(`.${targetClass}`); // get the section with the class that is stored in the data-target attribute of the clicked link
             if (targetClass === 'home') {
                 targetSection.style.display = 'flex';
             } else {
                 targetSection.style.display = 'block';
             }
 
-            // Load the playlist but do not play any song
+            // Load the playlist into the DOM
             if (targetClass in playlists) {
                 currentPlaylist = playlists[targetClass];
-                currentSongIndex = 0;
-                console.log("Loaded playlist:", currentPlaylist);
                 updateSongLinks();
             }
         });
@@ -385,6 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial call to update song links
     updateSongLinks();
 
+    // Add event listeners to the play, prev and next buttons and add its function
     playButton.addEventListener('click', () => {
         if (audioPlayer.paused) {
             playSong();
@@ -392,14 +419,12 @@ document.addEventListener('DOMContentLoaded', () => {
             pauseSong();
         }
     });
-
     prevButton.addEventListener('click', () => {
         if (playingPlaylistName) {
             currentPlaylist = playlists[playingPlaylistName];
             prevSong();
         }
     });
-
     nextButton.addEventListener('click', () => {
         if (playingPlaylistName) {
             currentPlaylist = playlists[playingPlaylistName];
@@ -407,20 +432,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    audioPlayer.addEventListener('timeupdate', () => {
+    // Add event listeners to the audioPlayer to update the progress bar and the current time in our playBar
+    audioPlayer.addEventListener('timeupdate', () => { // timeupdate event triggers every time the time of the audioPlayer changes
         const currentTime = audioPlayer.currentTime;
         const duration = audioPlayer.duration;
-        const progressPercent = (currentTime / duration) * 100;
-        progress.style.width = `${progressPercent}%`;
+        const progressPercent = (currentTime / duration) * 100; // calculates the percentage of how much of the song has been played
+        progress.style.width = `${progressPercent}%`; // sets the width of the progress bar to the calculated percentage
 
-        let minutes = Math.floor(currentTime / 60);
-        let seconds = Math.floor(currentTime % 60);
-        if (seconds < 10) {
+        let minutes = Math.floor(currentTime / 60); // converts the current time in seconds to minutes
+        let seconds = Math.floor(currentTime % 60); // calculates the remaining seconds after converting to minutes
+        if (seconds < 10) { // if the seconds are less than 10 a 0 will be added in front of the number for styling reasons
             seconds = `0${seconds}`;
         }
-        currentTimeElement.textContent = `${minutes}:${seconds}`;
+        currentTimeElement.textContent = `${minutes}:${seconds}`; // sets the current time in minutes and seconds to the currentTimeElement in the playBar
     });
 
+    // Add event listener to the progress bar to change the current time of the song when clicked
     progressBar.addEventListener('click', (e) => {
         const width = progressBar.clientWidth;
         const clickX = e.offsetX;
@@ -429,34 +456,35 @@ document.addEventListener('DOMContentLoaded', () => {
         audioPlayer.currentTime = (clickX / width) * duration;
     });
 
+    // Add event listeners to the audioPlayer to play the next song when the current song has ended
     audioPlayer.addEventListener('ended', nextSong);
 
+    // Add event listener to the favorite button (heart) to add the current song to the favorites playlist
     favoriteButton.addEventListener('click', () => {
         if (playingSong) {
-            // Check if the song is already in the favorites playlist
             const isFavorite = playlists.favoriten.some(song => song.src === playingSong.src);
-            favoriteButton.classList.add('animated');
-            setTimeout(() => {
+            favoriteButton.classList.add('animated'); // plays animation if the heart is clicked
+            setTimeout(() => {  // removes the animation class after 600ms
                 favoriteButton.classList.remove('animated');
             }, 600);
 
             if (!isFavorite) {
                 playlists.favoriten.push(playingSong);
-                localStorage.setItem('favoriten', JSON.stringify(playlists.favoriten));
-                favoriteButton.classList.add('favorited');
-                console.log("Song added to favorites:", playingSong);
+                localStorage.setItem('favoriten', JSON.stringify(playlists.favoriten)); // saves the favorites playlist to localStorage
+                favoriteButton.classList.add('favorited'); // changes the color of the heart to red
             } else {
-                playlists.favoriten = playlists.favoriten.filter(song => song.src !== playingSong.src);
-                localStorage.setItem('favoriten', JSON.stringify(playlists.favoriten));
-                favoriteButton.classList.remove('favorited');
-                console.log("Song removed from favorites:", playingSong);
+                playlists.favoriten = playlists.favoriten.filter(song => song.src !== playingSong.src); // filters out the song that should be removed by comparing the src of the song
+                localStorage.setItem('favoriten', JSON.stringify(playlists.favoriten)); // saves the updated favorites playlist to localStorage
+                favoriteButton.classList.remove('favorited'); // removes the red color from the heart
             }
-            updateFavoritePlaylist();
+            updateFavoritePlaylist(); // updates the html content of the favorite playlist
         }
     });
 
+    // Add event listener to the volume control icon to mute/unmute the audioPlayer
     volumeControl.addEventListener('click', () => {
-        audioPlayer.muted = !audioPlayer.muted;
+        audioPlayer.muted = !audioPlayer.muted; // toggles the muted state of the audioPlayer
+        // changes the icon of the volume control depending on the audioPlayer state
         if (audioPlayer.muted) {
             volumeControl.classList.remove('fa-volume-high');
             volumeControl.classList.add('fa-volume-mute');
@@ -466,6 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Updates the favorite button state depending on if the current song is in the favorites playlist
     function updateFavoriteButtonState() {
         if (playingSong) {
             const isFavorite = playlists.favoriten.some(song => song.src === playingSong.src);
@@ -479,9 +508,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // updates the favorite playlist html in the DOM
     function updateFavoritePlaylist() {
         const favoritePlaylist = document.querySelector('.playlist.favoriten .songs');
         favoritePlaylist.innerHTML = '';
+
         playlists.favoriten.forEach((song, index) => {
             const songElement = document.createElement('a');
             songElement.href = '#';
@@ -493,14 +524,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span>${song.duration}</span>
                 <i class="fas fa-times remove-song"></i>
             `;
-            favoritePlaylist.appendChild(songElement);
+            favoritePlaylist.appendChild(songElement); // adds the created a element to the favorite playlist in the html
         });
 
-        // Add event listeners for removing songs
+        // Add event listener to the remove buttons of each song in the favorites playlist
         const removeButtons = document.querySelectorAll('.remove-song');
         removeButtons.forEach((button, index) => {
             button.addEventListener('click', (e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // prevents the click event on remove Button (X) from triggering the parent element (a tag) click event handler and playing the song when we want to delete it
                 removeFavoriteSong(index);
             });
         });
@@ -509,25 +540,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function removeFavoriteSong(index) {
-        const removedSong = playlists.favoriten[index];
-        playlists.favoriten.splice(index, 1);
-        localStorage.setItem('favoriten', JSON.stringify(playlists.favoriten));
-        updateFavoritePlaylist();
+        const removedSong = playlists.favoriten[index]; // gets the song that should be removed by its index
+        playlists.favoriten.splice(index, 1); // removes the song from the favorites array by splicing it out by its index
+        localStorage.setItem('favoriten', JSON.stringify(playlists.favoriten)); // saves the updated favorites playlist to localStorage
+        updateFavoritePlaylist(); // updates the html content of the favorite playlist
+        // If the removed song is the currently playing song in the playBar, update the favorite button state (delete the red color from the heart)
         if (playingSong && playingSong.src === removedSong.src) {
             updateFavoriteButtonState();
         }
     }
 
-    // Load the current song from localStorage if available
+    // Load the currentSong (last played) from localStorage 
     const savedSong = JSON.parse(localStorage.getItem('currentSong'));
+    // if available
     if (savedSong) {
-        loadSong(savedSong);
+        playingPlaylistName = savedSong.playlist;
+        currentPlaylist = playlists[playingPlaylistName];
+        currentSongIndex = savedSong.index;
+        loadSong(savedSong.song);
     }
 
-    // Ensure song links are updated whenever new songs are loaded
+    // Adds a MutationObserver to the playlists to update the song links when the playlist changes
     document.querySelectorAll('.window .playlist').forEach(playlist => {
-        const observer = new MutationObserver(updateSongLinks);
-        observer.observe(playlist, { childList: true, subtree: true });
+        const observer = new MutationObserver(updateSongLinks); // creates a new MutationObserver that calls the updateSongLinks function when a mutation is detected
+        observer.observe(playlist, { childList: true, subtree: true }); // observes the playlist and all its children for changes
     });
 
     // Initial load of the favorite playlist

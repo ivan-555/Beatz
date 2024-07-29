@@ -63,7 +63,7 @@ body{
 }
 
 .content .sidebar a i{
-    transition: color .5s ease;
+    transition: all .3s ease;
 }
 
 .content .sidebar a:nth-child(1) img{
@@ -75,8 +75,19 @@ body{
     background: var(--secondary-color);
 }
 
-.content .sidebar a.active i{
-    color: var(--accent-color); /* Highlights icon of active playlist */
+/* Styles for the active playlist and icon */
+.content .sidebar a.active:not(:nth-child(1)){
+    transform: translateX(12px);
+}
+.content .sidebar a.active:not([data-target="favoriten"]) i {
+    transform: rotate(90deg);
+    scale: 1.1;
+}
+
+/* Styles for the playing playlist icon */
+.content .sidebar a.playing i {
+    color: var(--accent-color);
+    scale: 1.1;
 }
 
 
@@ -154,7 +165,7 @@ body{
     font-size: 1.2rem;
     padding: 10px;
     margin-bottom: 10px;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .content .window .playlist.favoriten .songs a{
@@ -169,6 +180,10 @@ body{
     width: 32px;
     height: 32px;
     border-radius: 50%;
+}
+
+.playing-song {
+    color: var(--accent-color);
 }
 
 
@@ -298,5 +313,61 @@ body{
     }
     60% {
         transform: scale(1.3);
+    }
+}
+
+
+.mobile-navbar{
+    display: none;
+}
+
+
+
+
+
+
+/* Media Queries */
+
+@media screen and (max-width: 1250px){
+    .content {
+        height: 100vh;
+        max-height: unset;
+    }
+
+    .content .sidebar{
+        display: none;
+    }
+
+    .mobile-navbar{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 50px;
+        height: 80px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .mobile-navbar div{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .mobile-navbar div i{
+        font-size: 1.3rem;
+    }
+
+    .play-bar{
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 99%;
+        border-radius: 10px;
+        border-top: 1px solid rgb(50, 42, 87);
     }
 }
