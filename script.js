@@ -417,7 +417,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentPlaylist = playlists[targetClass];
                 updateSongLinks();
             }
+
+            // Hide the sidebar but only on smaller devices when a link is clicked
+            if (window.innerWidth < 1250) {
+                sidebar.style.display = 'none';
+            }
         });
+    });
+
+    
+    // Add event listeners to the mobile navbar links
+    let mobileNavbarHomeLink = document.querySelector("#mobile-navbar-home-link")
+    let mobileNavbarPlaylistsLink = document.querySelector("#mobile-navbar-playlists-link")
+    const sidebar = document.querySelector('.sidebar');
+
+    mobileNavbarHomeLink.addEventListener('click', (e) => {
+        e.preventDefault(); // prevent the default behavior of the link (reload the page)
+        
+        // Remove 'active' class from all links
+        links.forEach(link => link.classList.remove('active'));
+        
+        // Hide all sections (playlists) in the window
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Show the home section with appropriate display style
+        const targetClass = mobileNavbarHomeLink.getAttribute('data-target');
+        const targetSection = document.querySelector(`.${targetClass}`);
+        targetSection.style.display = 'flex';
+        sidebar.style.display = 'none';
+
+        // Load the playlist into the DOM
+        if (targetClass in playlists) {
+            currentPlaylist = playlists[targetClass];
+            updateSongLinks();
+        }
+    });
+
+    mobileNavbarPlaylistsLink.addEventListener('click', (e) => {
+        e.preventDefault(); // prevent the default behavior of the link (reload the page)
+        
+
+        sidebar.style.display = 'flex';
     });
 
     // Initial call to update song links

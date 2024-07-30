@@ -322,7 +322,7 @@ body{
 }
 
 .play-bar .navigation .progress-bar{
-    width: 500px;
+    width: 30vw;
     height: 4px;
     border-radius: 20px;
     background: white;
@@ -390,40 +390,90 @@ body{
         max-height: unset;
     }
 
+    /* full screens sidebar */
     .content .sidebar{
-        display: none;
-    }
-
-    .mobile-navbar{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-color);
+        padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 50px;
-        height: 80px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
+        display: none;
     }
 
-    .mobile-navbar div{
+    .content .sidebar .wrapper{
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 5px;
+        justify-content: center;
+        gap: 30px;
+        padding: 20px;
+    }
+    
+    .content .sidebar a{
+        width: 200px;
+        margin: 0;
+    }
+    
+    .content .sidebar a:nth-child(1){
+        display: none;
     }
 
-    .mobile-navbar div i{
-        font-size: 1.3rem;
-    }
 
-    .play-bar{
+    /* nav between playlists and home */
+    .content .mobile-navbar{
+        background: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
         position: fixed;
-        bottom: 80px;
+        top: 0px;
         left: 50%;
         transform: translateX(-50%);
-        width: 99%;
+        border-radius: 0px 0px 10px 10px;
+    }
+
+    .content .mobile-navbar div a{
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        align-items: center;
+        padding: 10px 30px;
+    }
+
+    .content .mobile-navbar div span{
+        font-size: 1.1rem;
+    }
+
+    .content .mobile-navbar div i{
+        font-size: 1.1rem;
+        color: white;
+        cursor: pointer;
+    }
+
+
+
+    .play-bar{
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        right: 5px;
         border-radius: 10px;
-        border-top: 1px solid rgb(50, 42, 87);
+        border-top: none;
+    }
+
+    .content .window .home h1{
+        font-size: 5rem;
+    }
+    
+    .content .window .home img{
+        height: 200px;
+    }
+
+    .play-bar .navigation{
+        left: 55%; /* moves it a bit to the right */
     }
 }

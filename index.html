@@ -22,13 +22,20 @@
 
     <div class="content">
         <div class="sidebar">
-            <a href="#" data-target="home"><img src="img/logos/main-logo.png">Beatz</a>
-            <a href="#" data-target="favoriten"><i class="fa-solid fa-heart"></i></i>Favoriten</a>
-            <a href="#" data-target="rock"><i class="fa-solid fa-caret-right"></i>Rock</a>
-            <a href="#" data-target="edm"><i class="fa-solid fa-caret-right"></i>EDM</a>
-            <a href="#" data-target="relax"><i class="fa-solid fa-caret-right"></i>Relax</a>
+            <div class="wrapper">
+                <a href="#" data-target="home"><img src="img/logos/main-logo.png">Beatz</a>
+                <a href="#" data-target="favoriten"><i class="fa-solid fa-heart"></i></i>Favoriten</a>
+                <a href="#" data-target="rock"><i class="fa-solid fa-caret-right"></i>Rock</a>
+                <a href="#" data-target="edm"><i class="fa-solid fa-caret-right"></i>EDM</a>
+                <a href="#" data-target="relax"><i class="fa-solid fa-caret-right"></i>Relax</a>
+            </div>
         </div>
-        
+
+        <div class="mobile-navbar">
+            <div><a href="#"  id="mobile-navbar-home-link" data-target="home"><i class="fa-solid fa-house"></i><span>Home</span></a></div>
+            <div><a href="#"  id="mobile-navbar-playlists-link"><i class="fa-regular fa-folder-open"></i><span>Playlists</span></a></div>
+        </div>
+
         <div class="window">
             <div class="home">
                 <h1>Beatz</h1>
@@ -154,11 +161,6 @@
             <i class="fa-regular fa-heart" id="add-favorite"></i>
             <i class="fa-solid fa-volume-high" id="volume-control"></i>
         </div>
-    </div>
-
-    <div class="mobile-navbar">
-        <div><a href=""><i class="fa-solid fa-house"></i></a><span>Home</span></div>
-        <div><a href=""><i class="fa-regular fa-folder-open"></i></a><span>Playlists</span></div>
     </div>
 </body>
 </html>
