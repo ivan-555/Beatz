@@ -279,6 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const durationElement = document.querySelector('.play-bar .duration');
     const progressBar = document.querySelector('.play-bar .progress-bar');
     const progress = document.querySelector('.play-bar .progress');
+    const progressBarMobile = document.querySelector('.play-bar .progress-bar.mobile');
+    const progressMobile = document.querySelector('.play-bar .progress-bar.mobile .progress');
     const favoriteButton = document.getElementById('add-favorite');
     const volumeControl = document.getElementById('volume-control');
     let currentPlaylist = [];
@@ -305,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePlayingPlaylistIcon(); // Update the playing playlist icon
 
         // Ensure play button is updated correctly
-        playButton.innerHTML = '<i class="fas fa-pause"></i>';
+        playButton.innerHTML = '<i class="fas fa-play"></i>'; // Set to play icon initially
         // Update favorite button state
         updateFavoriteButtonState();
     }
@@ -457,8 +459,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     mobileNavbarPlaylistsLink.addEventListener('click', (e) => {
         e.preventDefault(); // prevent the default behavior of the link (reload the page)
-        
-
         sidebar.style.display = 'flex';
     });
 
@@ -492,6 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const duration = audioPlayer.duration;
         const progressPercent = (currentTime / duration) * 100; // calculates the percentage of how much of the song has been played
         progress.style.width = `${progressPercent}%`; // sets the width of the progress bar to the calculated percentage
+        progressMobile.style.width = `${progressPercent}%`; // sets the width of the progress bar to the calculated percentage
 
         let minutes = Math.floor(currentTime / 60); // converts the current time in seconds to minutes
         let seconds = Math.floor(currentTime % 60); // calculates the remaining seconds after converting to minutes
@@ -504,6 +505,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add event listener to the progress bar to change the current time of the song when clicked
     progressBar.addEventListener('click', (e) => {
         const width = progressBar.clientWidth;
+        const clickX = e.offsetX;
+        const duration = audioPlayer.duration;
+
+        audioPlayer.currentTime = (clickX / width) * duration;
+    });
+
+    progressBarMobile.addEventListener('click', (e) => {
+        const width = progressBarMobile.clientWidth;
         const clickX = e.offsetX;
         const duration = audioPlayer.duration;
 
@@ -612,6 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPlaylist = playlists[playingPlaylistName];
         currentSongIndex = savedSong.index;
         loadSong(savedSong.song);
+        playButton.innerHTML = '<i class="fas fa-play"></i>'; // Set to play icon on page load
     }
 
     // Adds a MutationObserver to the playlists to update the song links when the playlist changes
