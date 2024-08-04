@@ -11,13 +11,23 @@
     --accent-color: rgb(218, 64, 55);
 }
 
+/* Ensure light mode is enforced even if system prefers dark mode */
+@media (prefers-color-scheme: dark) {
+    :root{
+        --text-color: rgb(239, 239, 239);
+        --primary-color: rgb(22, 22, 35);
+        --secondary-color: rgb(29, 39, 59);
+        --accent-color: rgb(218, 64, 55);
+    }
+}
+
 a{
     text-decoration: none;
     color: inherit;
 }
 
 body{
-    height: 100vh;
+    height: 100svh;
     display: flex;
     flex-direction: column; /* Content and Play Bar */
     color: var(--text-color);
@@ -28,7 +38,7 @@ body{
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100svh;
     background: var(--primary-color);
     display: flex;
     align-items: center;
@@ -82,7 +92,7 @@ body{
 .content {
     display: flex; /* Sidebar and Window */
     flex-grow: 1; /* Takes the remaining height left by the Play Bar */
-    max-height: calc(100vh - 100px); /* 100px is the height of the Play Bar */
+    max-height: calc(100svh - 100px); /* 100px is the height of the Play Bar */
 }
 
 
@@ -133,17 +143,17 @@ body{
 
 /* Styles for the active playlist and icon */
 .content .sidebar a.active:not(:nth-child(1)){
-    transform: translateX(12px);
-}
-.content .sidebar a.active:not([data-target="favoriten"]) i {
-    transform: rotate(90deg);
-    scale: 1.1;
+    transform: translateX(15px);
 }
 
 /* Styles for the playing playlist icon */
 .content .sidebar a.playing i {
     color: var(--accent-color);
     scale: 1.1;
+}
+
+.mobile-navbar{
+    display: none;
 }
 
 
@@ -228,6 +238,10 @@ body{
     grid-template-columns: .5fr 1fr 2fr 2fr 1fr 20px; /* adds one more column for the X icon */
 }
 
+.content .window .playlist .songs a span:nth-child(3) i{
+    display: none; /* displayed only on mobile */
+}
+
 .content .window .playlist .songs a:hover{
     background: var(--secondary-color);
 }
@@ -255,7 +269,7 @@ body{
     justify-content: space-between;
     padding: 50px;
     position: relative;
-    border-top: 1px solid rgb(50, 42, 87);
+    z-index: 1000;
 }
 
 .play-bar .song{
@@ -374,15 +388,13 @@ body{
     }
 }
 
-
-.mobile-navbar{
-    display: none;
-}
-
 .progress-bar.mobile{
     display: none;
 }
 
+.mobile-playBar-navigation{
+    display: none;
+}
 
 
 
@@ -407,10 +419,6 @@ body{
 
     .content .window .home{
         padding-bottom: 50px; /* adds padding to the home bottom to center the content since the window has top padding and not bot */
-    }
-
-    .content .window .playlist .songs{
-        padding-bottom: 10px;
     }
 
     /* full screens sidebar which will be openable with a mobile navbar */
@@ -444,6 +452,11 @@ body{
     /* hide logo */
     .content .sidebar a:nth-child(1){
         display: none;
+    }
+
+    /* deletes the highlight shift when we use the mobile version of the sidebar */
+    .content .sidebar a.active:not(:nth-child(1)){
+        transform: translateX(0px);
     }
 
 
@@ -482,12 +495,13 @@ body{
 
     /* floating style */
     .play-bar{
-        position: absolute;
+        position: fixed;
         bottom: 5px;
         left: 5px;
         right: 5px;
         border-radius: 10px;
         border-top: none;
+        display: none;
     }
 
     .content .window .home h1{
@@ -540,7 +554,7 @@ body{
     }
     
     .play-bar .controls i{
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 }
 
@@ -564,6 +578,7 @@ body{
 
     .play-bar{
         bottom: 10px; /* moves it a bit up */
+        overflow: hidden; /* hides the overflowing ends of the progress bar */
     }
 
     .play-bar .navigation .wrapper{
@@ -599,16 +614,25 @@ body{
     .play-bar{
         padding: 20px;
     }
+
+    /* mobile artist display */
+    .content .window .playlist .songs a span:nth-child(3){ 
+        display: flex;
+        flex-direction: column; /* Song Name and artist above each other on mobile */
+        gap: 5px;
+    }
+    
+    /* mobile artist element */
+    .content .window .playlist .songs a span:nth-child(3) i{
+        display: inline-block; /* shows it */
+        font-size: .8rem;
+        color: rgb(137, 137, 137);
+    }
 }
 
 @media screen and (max-width: 800px){
     .play-bar .navigation{
-        left: 59%; /* moves it a bit to the right */
-    }
-}
-@media screen and (max-width: 700px){
-    .play-bar .navigation{
-        left: 61%; /* moves it a bit to the right */
+        left: 58%; /* moves it a bit to the right */
     }
 }
 
@@ -631,7 +655,77 @@ body{
     
     .play-bar .navigation{
         left: auto;
-        right: 90px;
+        right: 45px; /* moves play button to the right next to the fav button */
+    }
+    .play-bar .controls #volume-control{
+        display: none; /* hides the volume control */
+    }
+
+    .mobile-playBar-navigation{
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) rotate(180deg);
+        background: var(--secondary-color);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: block;
+        transition: all 1s ease;
+    }
+
+    .mobile-playBar-navigation.active{
+        transform: translateX(-50%) rotate(360deg);
+        bottom: 50px;
+    }
+
+    .mobile-playBar-navigation.active button{
+        pointer-events: all;
+        opacity: 1;
+    }
+
+    .mobile-playBar-navigation button{
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: var(--accent-color);
+        color: white;
+        font-size: .9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    .mobile-playBar-navigation i#view-more{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0px;
+        color: var(--accent-color);
+        font-size: 1.2rem;
+        padding: 5px 30px;
+    }
+
+    .mobile-playBar-navigation button.prev{
+        left: 0;
+        top: 30%;
+        transform: translate(-50%, -50%);
+    }
+    .mobile-playBar-navigation button.next{
+        right: 0;
+        top: 30%;
+        transform: translate(50%, -50%);
+    }
+    .mobile-playBar-navigation button.volume-control{
+        left: 50%;
+        top: 0;
+        transform: translate(-50%, -50%);
     }
 }
 
@@ -652,18 +746,12 @@ body{
 }
 
 @media screen and (max-width: 450px){
-    .play-bar .controls{
-        gap: 15px;
-    }
-    .play-bar .controls i{
-        font-size: 1.1rem;
-    }
     .play-bar .navigation .buttons button{
         width: 30px;
         height: 30px;
     }
     .play-bar .navigation{
-        right: 70px;
+        right: 45px; /* moves play button to the right next to the fav button */
     }
 }
 
@@ -691,6 +779,10 @@ body{
         height: 100px;
     }
 
+    .content .window .playlist .songs{
+        max-height: calc(100vh - 330px); /* more height since top text is smaller*/
+    }
+
     /* more space available for the song name */
     .content .window .playlist .songs a{
         grid-template-columns: .5fr 1fr 3fr;
@@ -700,17 +792,17 @@ body{
     }
 
     .play-bar{
-        padding: 10px 20px 10px 10px;
+        padding-left: 10px; /* reduced */
     }
     .play-bar .song{
         gap: 10px;
     }
 
     .play-bar .song .info span.name{
-        max-width: 150px;
+        max-width: 150px; 
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-overflow: ellipsis; /* adds ... if the text overflows */
     }
 }
 
@@ -732,5 +824,9 @@ body{
         padding-bottom: 0px;
         margin-bottom: 30px;
         height: 80px;
+    }
+
+    .content .window .playlist .songs{
+        max-height: calc(100vh - 310px); /* more height since top text is smaller*/
     }
 }

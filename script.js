@@ -272,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playButton = document.getElementById('play');
     const prevButton = document.getElementById('prev');
     const nextButton = document.getElementById('next');
+    const playBar = document.querySelector('.play-bar');
     const coverImage = document.querySelector('.play-bar .cover img');
     const songTitle = document.querySelector('.play-bar .info .name');
     const songArtist = document.querySelector('.play-bar .info .artist');
@@ -310,6 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         playButton.innerHTML = '<i class="fas fa-play"></i>'; // Set to play icon initially
         // Update favorite button state
         updateFavoriteButtonState();
+        playBar.style.display = 'flex'; // Show playBar
     }
 
     // function to highlight the currently playing song in its playlist
@@ -466,7 +468,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSongLinks();
 
     // Add event listeners to the play, prev and next buttons and add its function
-    playButton.addEventListener('click', () => {
+    playButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevents the click event from bubbling up to the parent element
         if (audioPlayer.paused) {
             playSong();
         } else {
@@ -479,7 +482,21 @@ document.addEventListener('DOMContentLoaded', () => {
             prevSong();
         }
     });
+    const mobilePlayBarNavigationPrevButton = document.querySelector('.mobile-playBar-navigation .prev');
+    mobilePlayBarNavigationPrevButton.addEventListener('click', () => {
+        if (playingPlaylistName) {
+            currentPlaylist = playlists[playingPlaylistName];
+            prevSong();
+        }
+    });
     nextButton.addEventListener('click', () => {
+        if (playingPlaylistName) {
+            currentPlaylist = playlists[playingPlaylistName];
+            nextSong();
+        }
+    });
+    const mobilePlayBarNavigationNextButton = document.querySelector('.mobile-playBar-navigation .next');
+    mobilePlayBarNavigationNextButton.addEventListener('click', () => {
         if (playingPlaylistName) {
             currentPlaylist = playlists[playingPlaylistName];
             nextSong();
@@ -557,6 +574,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const mobilePlayBarNavigationVolumeControl = document.querySelector('.mobile-playBar-navigation .volume-control');
+    mobilePlayBarNavigationVolumeControl.addEventListener('click', () => {
+        audioPlayer.muted = !audioPlayer.muted; // toggles the muted state of the audioPlayer
+        // changes the icon of the volume control depending on the audioPlayer state
+        if (audioPlayer.muted) {
+            mobilePlayBarNavigationVolumeControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        } else {
+            mobilePlayBarNavigationVolumeControl.innerHTML = '<i class="fas fa-volume-high"></i>';
+        }
+    });
+
+
     // Updates the favorite button state depending on if the current song is in the favorites playlist
     function updateFavoriteButtonState() {
         if (playingSong) {
@@ -582,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
             songElement.innerHTML = `
                 <span>${index + 1}</span>
                 <img src="${song.cover}" alt="${song.title}">
-                <span>${song.title}</span>
+                <span>${song.title} <i class="artist">${song.artist}</i></span>
                 <span>${song.artist}</span>
                 <span>${song.duration}</span>
                 <i class="fas fa-times remove-song"></i>
@@ -632,4 +661,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial load of the favorite playlist
     updateFavoritePlaylist();
+
+
+
+    // Mobile play bar navigation
+    const body = document.querySelector('body');
+    const mobilePlayBarNavigationViewMoreBtn = document.querySelector('.mobile-playBar-navigation #view-more');
+    const mobilePlayBarNavigation = document.querySelector('.mobile-playBar-navigation');
+    const mobilePlayBarNavigationButtons = document.querySelectorAll(".mobile-playBar-navigation button");
+
+    mobilePlayBarNavigationViewMoreBtn.addEventListener('click', () => {
+        mobilePlayBarNavigation.classList.add("active") // class rotates the navigation and shows navigation items
+    });
+
+    body.addEventListener('click', (e) => {
+        if (!mobilePlayBarNavigation.contains(e.target) && !playBar.contains(e.target)) {
+            mobilePlayBarNavigation.classList.remove("active");
+        }
+    });
+
+    mobilePlayBarNavigationButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); // prevents the click event from bubbling up to the parent element
+        });
+    });
+    
 });
