@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beatz</title>
+    <!-- custom CSS -->
     <link rel="stylesheet" href="style.css">
+    <!-- custom JS -->
     <script src="script.js" defer></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Favicon -->
     <link rel="icon" href="img/logos/main-logo.png" type="image/x-icon">
 </head>
 <body>
+    <!-- Page Preloader -->
     <div class="preloader" id="preloader">
         <div class="sound-bars">
             <div class="bar bar1"></div>
@@ -18,24 +23,61 @@
         </div>
     </div>
 
+    <!-- hidden audioplayer element to play and controll songs -->
     <audio src="" id="audioPlayer" style="display: none;"></audio>
 
+    <!-- Sidebar and Window -->
     <div class="content">
+        <!-- Sidebar to navigate between Playlists -->
         <div class="sidebar">
-            <div class="wrapper">
+            <div class="wrapper"> <!-- needed for mobile styling -->
                 <a href="#" data-target="home"><img src="img/logos/main-logo.png">Beatz</a>
-                <a href="#" data-target="favoriten"><i class="fa-solid fa-heart"></i></i>Favoriten</a>
-                <a href="#" data-target="rock"><i class="fa-solid fa-caret-right"></i>Rock</a>
-                <a href="#" data-target="edm"><i class="fa-solid fa-caret-right"></i>EDM</a>
-                <a href="#" data-target="relax"><i class="fa-solid fa-caret-right"></i>Relax</a>
+                <a href="#" data-target="favoriten">
+                    <i class="fa-solid fa-heart"></i>
+                    <div class="sound-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                    Favoriten
+                </a>
+                <a href="#" data-target="rock">
+                    <i class="fa-solid fa-caret-right"></i>
+                    <div class="sound-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                    Rock
+                </a>
+                <a href="#" data-target="edm">
+                    <i class="fa-solid fa-caret-right"></i>
+                    <div class="sound-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                    EDM
+                </a>
+                <a href="#" data-target="relax">
+                    <i class="fa-solid fa-caret-right"></i>
+                    <div class="sound-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                    Relax
+                </a>
             </div>
         </div>
 
+        <!-- Navbar to navigate between home and playlist sections in window on mobile devices -->
         <div class="mobile-navbar">
             <div><a href="#"  id="mobile-navbar-home-link" data-target="home"><i class="fa-solid fa-house"></i><span>Home</span></a></div>
             <div><a href="#"  id="mobile-navbar-playlists-link"><i class="fa-regular fa-folder-open"></i><span>Playlists</span></a></div>
         </div>
 
+        <!-- Window Element will show current viewing Section / Playlist -->
         <div class="window">
             <div class="home">
                 <h1>Beatz</h1>
@@ -51,7 +93,7 @@
                     </div>
                 </div>
                 <div class="songs">
-                    <!-- added in js -->
+                    <!-- added by js -->
                 </div>
             </div>
 
@@ -63,21 +105,21 @@
                     </div>
                 </div>
                 <div class="songs">
-                    <a href=""><span>1</span><img src="img/covers/thunderstruck.jfif" alt=""><span>Thunderstruck <i class="artist">ACDC</i></span><span>AC/DC</span><span>4:53</span></a>
-                    <a href=""><span>2</span><img src="img/covers/the-unforgiven.jpg" alt=""><span>The Unforgiven <i class="artist">Metallica</i></span><span>Metallica</span><span>6:23</span></a>
-                    <a href=""><span>3</span><img src="img/covers/der-himmel-kann-warten.jpg" alt=""><span>Der Himmel kann warten <i class="artist">Böhse Onkelz</i></span><span>Böhse Onkelz</span><span>4:17</span></a>
-                    <a href=""><span>4</span><img src="img/covers/castle-of-glass.jpg" alt=""><span>Castle of Glass <i class="artist">Linkin Park</i></span><span>Linkin Park</span><span>3:25</span></a>
-                    <a href=""><span>5</span><img src="img/covers/november-rain.jfif" alt=""><span>November Rain <i class="artist">Guns N' Roses </i></span><span>Guns N' Roses</span><span>9:00</span></a>
-                    <a href=""><span>6</span><img src="img/covers/back-in-black.jpg" alt=""><span>Back In Black <i class="artist">ACDC</i></span><span>AC/DC</span><span>4:11</span></a>
-                    <a href=""><span>7</span><img src="img/covers/perfect-strangers.jpg" alt=""><span>Perfect Strangers <i class="artist">Deep Purple</i></span><span>Deep Purple</span><span>5:24</span></a>
-                    <a href=""><span>8</span><img src="img/covers/rock-and-roll.jpg" alt=""><span>Rock and Roll <i class="artist">Led Zeppelin</i></span><span>Led Zeppelin</span><span>3:40</span></a>
-                    <a href=""><span>9</span><img src="img/covers/another-brick-in-the-wall.webp" alt=""><span>Another Brick In The Wall <i class="artist">Pink Floyd</i></span><span>Pink Floyd</span><span>3:49</span></a>
-                    <a href=""><span>10</span><img src="img/covers/new-divide.jpg" alt=""><span>New Divide <i class="artist">Linkin Park</i></span><span>Linkin Park</span><span>4:28</span></a>
-                    <a href=""><span>11</span><img src="img/covers/fade-to-black.jpg" alt=""><span>Fade To Black <i class="artist">Metallica</i></span><span>Metallica</span><span>6:57</span></a>
-                    <a href=""><span>12</span><img src="img/covers/burn-it-to-the-ground.jpg" alt=""><span>Burn it to the Ground <i class="artist">Nickelback</i></span><span>Nickelback</span><span>3:32</span></a>
-                    <a href=""><span>13</span><img src="img/covers/still-loving-you.jpg" alt=""><span>Still Loving You <i class="artist">Scorpions</i></span><span>Scorpions</span><span>4:47</span></a>
-                    <a href=""><span>14</span><img src="img/covers/everlong.jpg" alt=""><span>Everlong <i class="artist">Foo Fighters</i></span><span>Foo Fighters</span><span>4:51</span></a>
-                    <a href=""><span>15</span><img src="img/covers/mr-crowley.jfif" alt=""><span>Mr. Crowley <i class="artist">Ozzy Osbourne</i></span><span>Ozzy Osbourne</span><span>5:03</span></a>
+                    <a href=""><span>2</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/the-unforgiven.jpg" alt=""><span>The Unforgiven <i class="artist">Metallica</i></span><span>Metallica</span><span>6:23</span></a>
+                    <a href=""><span>1</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/thunderstruck.jfif" alt=""><span>Thunderstruck <i class="artist">ACDC</i></span><span>AC/DC</span><span>4:53</span></a>
+                    <a href=""><span>3</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/der-himmel-kann-warten.jpg" alt=""><span>Der Himmel kann warten <i class="artist">Böhse Onkelz</i></span><span>Böhse Onkelz</span><span>4:17</span></a>
+                    <a href=""><span>4</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/castle-of-glass.jpg" alt=""><span>Castle of Glass <i class="artist">Linkin Park</i></span><span>Linkin Park</span><span>3:25</span></a>
+                    <a href=""><span>5</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/november-rain.jfif" alt=""><span>November Rain <i class="artist">Guns N' Roses </i></span><span>Guns N' Roses</span><span>9:00</span></a>
+                    <a href=""><span>6</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/back-in-black.jpg" alt=""><span>Back In Black <i class="artist">ACDC</i></span><span>AC/DC</span><span>4:11</span></a>
+                    <a href=""><span>7</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/perfect-strangers.jpg" alt=""><span>Perfect Strangers <i class="artist">Deep Purple</i></span><span>Deep Purple</span><span>5:24</span></a>
+                    <a href=""><span>8</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/rock-and-roll.jpg" alt=""><span>Rock and Roll <i class="artist">Led Zeppelin</i></span><span>Led Zeppelin</span><span>3:40</span></a>
+                    <a href=""><span>9</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/another-brick-in-the-wall.webp" alt=""><span>Another Brick In The Wall <i class="artist">Pink Floyd</i></span><span>Pink Floyd</span><span>3:49</span></a>
+                    <a href=""><span>10</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/new-divide.jpg" alt=""><span>New Divide <i class="artist">Linkin Park</i></span><span>Linkin Park</span><span>4:28</span></a>
+                    <a href=""><span>11</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/fade-to-black.jpg" alt=""><span>Fade To Black <i class="artist">Metallica</i></span><span>Metallica</span><span>6:57</span></a>
+                    <a href=""><span>12</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/burn-it-to-the-ground.jpg" alt=""><span>Burn it to the Ground <i class="artist">Nickelback</i></span><span>Nickelback</span><span>3:32</span></a>
+                    <a href=""><span>13</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/still-loving-you.jpg" alt=""><span>Still Loving You <i class="artist">Scorpions</i></span><span>Scorpions</span><span>4:47</span></a>
+                    <a href=""><span>14</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/everlong.jpg" alt=""><span>Everlong <i class="artist">Foo Fighters</i></span><span>Foo Fighters</span><span>4:51</span></a>
+                    <a href=""><span>15</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/mr-crowley.jfif" alt=""><span>Mr. Crowley <i class="artist">Ozzy Osbourne</i></span><span>Ozzy Osbourne</span><span>5:03</span></a>
                 </div>
             </div>
 
@@ -89,16 +131,16 @@
                     </div>
                 </div>
                 <div class="songs">
-                    <a href=""><span>1</span><img src="img/covers/faded.jpg" alt=""><span>Faded <i class="artist">Alan Walker</i></span><span>Alan Walker</span><span>3:31</span></a>
-                    <a href=""><span>2</span><img src="img/covers/a-light-that-never-comes.jpg" alt=""><span>A Light That Never Comes <i class="artist">Linkin Park</i></span><span>Linkin Park</span><span>3:57</span></a>
-                    <a href=""><span>3</span><img src="img/covers/monsoon.jpg" alt=""><span>Monsoon Hardstsle <i class="artist">VIZE</i></span><span>VIZE</span><span>2:55</span></a>
-                    <a href=""><span>4</span><img src="img/covers/end-the-lies.jpg" alt=""><span>End The Lies <i class="artist">Basshunter</i></span><span>Basshunter</span><span>2:46</span></a>
-                    <a href=""><span>5</span><img src="img/covers/everytime-we-touch.jfif" alt=""><span>Everytime We Touch <i class="artist">Hardwell</i></span><span>Hardwell</span><span>3:36</span></a>
-                    <a href=""><span>6</span><img src="img/covers/levels.jpg" alt=""><span>Levels <i class="artist">Avicii</i></span><span>Avicii</span><span>3:18</span></a>
-                    <a href=""><span>7</span><img src="img/covers/the-nights.jfif" alt=""><span>The Nights <i class="artist">Avicii</i></span><span>Avicii</span><span>3:10</span></a>
-                    <a href=""><span>8</span><img src="img/covers/wake-me-up.png" alt=""><span>Wake Me Up <i class="artist">Avicii</i></span><span>Avicii</span><span>4:32</span></a>
-                    <a href=""><span>9</span><img src="img/covers/stamp-on-the-ground.jfif" alt=""><span>Stamp On The Ground <i class="artist">ItaloBrothers</i></span><span>ItaloBrothers</span><span>3:33</span></a>
-                    <a href=""><span>10</span><img src="img/covers/she-wolf.jpg" alt=""><span>She Wolf <i class="artist">David Guetta</i></span><span>David Guetta</span><span>3:57</span></a>
+                    <a href=""><span>1</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/faded.jpg" alt=""><span>Faded <i class="artist">Alan Walker</i></span><span>Alan Walker</span><span>3:31</span></a>
+                    <a href=""><span>2</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/a-light-that-never-comes.jpg" alt=""><span>A Light That Never Comes <i class="artist">Linkin Park</i></span><span>Linkin Park</span><span>3:57</span></a>
+                    <a href=""><span>3</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/monsoon.jpg" alt=""><span>Monsoon Hardstsle <i class="artist">VIZE</i></span><span>VIZE</span><span>2:55</span></a>
+                    <a href=""><span>4</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/end-the-lies.jpg" alt=""><span>End The Lies <i class="artist">Basshunter</i></span><span>Basshunter</span><span>2:46</span></a>
+                    <a href=""><span>5</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/everytime-we-touch.jfif" alt=""><span>Everytime We Touch <i class="artist">Hardwell</i></span><span>Hardwell</span><span>3:36</span></a>
+                    <a href=""><span>6</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/levels.jpg" alt=""><span>Levels <i class="artist">Avicii</i></span><span>Avicii</span><span>3:18</span></a>
+                    <a href=""><span>7</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/the-nights.jfif" alt=""><span>The Nights <i class="artist">Avicii</i></span><span>Avicii</span><span>3:10</span></a>
+                    <a href=""><span>8</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/wake-me-up.png" alt=""><span>Wake Me Up <i class="artist">Avicii</i></span><span>Avicii</span><span>4:32</span></a>
+                    <a href=""><span>9</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/stamp-on-the-ground.jfif" alt=""><span>Stamp On The Ground <i class="artist">ItaloBrothers</i></span><span>ItaloBrothers</span><span>3:33</span></a>
+                    <a href=""><span>10</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/she-wolf.jpg" alt=""><span>She Wolf <i class="artist">David Guetta</i></span><span>David Guetta</span><span>3:57</span></a>
                 </div>
             </div>
 
@@ -110,16 +152,16 @@
                     </div>
                 </div>
                 <div class="songs">
-                    <a href=""><span>1</span><img src="img/covers/down-by-the-river.jpg" alt=""><span>Down By The River <i class="artist">Milky Chance</i></span><span>Milky Chance</span><span>3:49</span></a>
-                    <a href=""><span>2</span><img src="img/covers/all-summer-long.jpg" alt=""><span>All Summer Long <i class="artist">Kid Rock</i></span><span>Kid Rock</span><span>3:48</span></a>
-                    <a href=""><span>3</span><img src="img/covers/cant-hold-us.jpg" alt=""><span>Cant Hold Us <i class="artist">Macklemore</i></span><span>Macklemore</span><span>7:03</span></a>
-                    <a href=""><span>4</span><img src="img/covers/riptide.jfif" alt=""><span>Riptide <i class="artist">Vance Joy</i></span><span>Vance Joy</span><span>3:24</span></a>
-                    <a href=""><span>5</span><img src="img/covers/summer.jfif" alt=""><span>Summer <i class="artist">Calvin Harris</i></span><span>Calvin Harris</span><span>3:53</span></a>
-                    <a href=""><span>6</span><img src="img/covers/memories.jpg" alt=""><span>Memories <i class="artist">David Guetta</i></span><span>David Guetta</span><span>3:28</span></a>
-                    <a href=""><span>7</span><img src="img/covers/hymn-for-the-weekend.jfif" alt=""><span>Hymn for the Weekend <i class="artist">Coldplay</i></span><span>Coldplay</span><span>4:20</span></a>
-                    <a href=""><span>8</span><img src="img/covers/lovers-on-the-sun.jfif" alt=""><span>Lovers on the Sun <i class="artist">David Guetta</i></span><span>David Guetta</span><span>3:43</span></a>
-                    <a href=""><span>9</span><img src="img/covers/the-spectre.jfif" alt=""><span>The Spectre <i class="artist">Alan Walker</i></span><span>Alan Walker</span><span>3:26</span></a>
-                    <a href=""><span>10</span><img src="img/covers/paradise.jfif" alt=""><span>Paradise <i class="artist">Coldplay</i></span><span>Coldplay</span><span>4:20</span></a>
+                    <a href=""><span>1</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/down-by-the-river.jpg" alt=""><span>Down By The River <i class="artist">Milky Chance</i></span><span>Milky Chance</span><span>3:49</span></a>
+                    <a href=""><span>2</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/all-summer-long.jpg" alt=""><span>All Summer Long <i class="artist">Kid Rock</i></span><span>Kid Rock</span><span>3:48</span></a>
+                    <a href=""><span>3</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/cant-hold-us.jpg" alt=""><span>Cant Hold Us <i class="artist">Macklemore</i></span><span>Macklemore</span><span>7:03</span></a>
+                    <a href=""><span>4</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/riptide.jfif" alt=""><span>Riptide <i class="artist">Vance Joy</i></span><span>Vance Joy</span><span>3:24</span></a>
+                    <a href=""><span>5</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/summer.jfif" alt=""><span>Summer <i class="artist">Calvin Harris</i></span><span>Calvin Harris</span><span>3:53</span></a>
+                    <a href=""><span>6</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/memories.jpg" alt=""><span>Memories <i class="artist">David Guetta</i></span><span>David Guetta</span><span>3:28</span></a>
+                    <a href=""><span>7</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/hymn-for-the-weekend.jfif" alt=""><span>Hymn for the Weekend <i class="artist">Coldplay</i></span><span>Coldplay</span><span>4:20</span></a>
+                    <a href=""><span>8</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/lovers-on-the-sun.jfif" alt=""><span>Lovers on the Sun <i class="artist">David Guetta</i></span><span>David Guetta</span><span>3:43</span></a>
+                    <a href=""><span>9</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/the-spectre.jfif" alt=""><span>The Spectre <i class="artist">Alan Walker</i></span><span>Alan Walker</span><span>3:26</span></a>
+                    <a href=""><span>10</span><div class="sound-bars"><div class="bar bar1"></div><div class="bar bar2"></div><div class="bar bar3"></div></div><img src="img/covers/paradise.jfif" alt=""><span>Paradise <i class="artist">Coldplay</i></span><span>Coldplay</span><span>4:20</span></a>
                 </div>
             </div>
         </div>
@@ -165,18 +207,19 @@
             <i class="fa-regular fa-heart" id="add-favorite"></i>
             <i class="fa-solid fa-volume-high" id="volume-control"></i>
         </div>
+
     </div>
 
+    <!-- Song Controll Buttons for Mobile Devices -->
     <div class="mobile-playBar-navigation">
-        <i class="fa-solid fa-caret-down" id="view-more"></i>
         <button class="prev">
             <i class="fas fa-backward"></i>
         </button>
-        <button class="next">
-            <i class="fas fa-forward"></i>
-        </button>
         <button class="volume-control">
             <i class="fa-solid fa-volume-high"></i>
+        </button>
+        <button class="next">
+            <i class="fas fa-forward"></i>
         </button>
     </div>
 </body>

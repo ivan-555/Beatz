@@ -11,16 +11,6 @@
     --accent-color: rgb(218, 64, 55);
 }
 
-/* Ensure light mode is enforced even if system prefers dark mode */
-@media (prefers-color-scheme: dark) {
-    :root{
-        --text-color: rgb(239, 239, 239);
-        --primary-color: rgb(22, 22, 35);
-        --secondary-color: rgb(29, 39, 59);
-        --accent-color: rgb(218, 64, 55);
-    }
-}
-
 a{
     text-decoration: none;
     color: inherit;
@@ -29,10 +19,12 @@ a{
 body{
     height: 100svh;
     display: flex;
-    flex-direction: column; /* Content and Play Bar */
+    flex-direction: column; /* Content and PlayBar */
     color: var(--text-color);
+    -webkit-tap-highlight-color: transparent; /* removes the Tap Highlight on Mobile Device if we klick a button */
 }
 
+/* Page Preloader */
 .preloader{
     position: fixed;
     top: 0;
@@ -43,50 +35,52 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 10000;
 }
-
 .preloader .sound-bars{
     position: relative;
     width: 50px;
     height: 50px;
 }
-
 .preloader .bar{
     width: 5px;
     border-radius: 5px;
     background: linear-gradient(to bottom, #800080, var(--accent-color));
     position: absolute;
     bottom: 0;
-}
-
-.preloader .bar.bar1{
     animation: dance .5s ease alternate infinite;
+    animation-play-state: running !important; /* makes sure this animation is running since we pause the soundwaves on current playing song link depending on audio player play state */
+}
+.preloader .bar.bar1{
     left: 0;
 }
 .preloader .bar.bar2{
-    animation: dance .5s .2s ease alternate infinite;
+    animation-delay: .2s;
     left: 50%;
     transform: translateX(-50%);
 }
 .preloader .bar.bar3{
-    animation: dance .5s .4s ease alternate infinite;
+    animation-delay: .4s;
     right: 0;
 }
-
 @keyframes dance{
     0%{
-        height: 0px;
+        height: 0%;
     }
     100%{
-        height: 50px;
+        height: 100%;
     }
 }
-
+/* this class will be added by js after a specified time delay to hide it */
 .preloader.hidden{
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease;
+}
+
+/* mobile version initialy hidden */
+.mobile-navbar{
+    display: none;
 }
 
 .content {
@@ -117,10 +111,15 @@ body{
     transition: all 0.3s ease;
 }
 
+/* logo */
 .content .sidebar a:nth-child(1){
     margin-bottom: 50px;
     font-size: 2rem;
     font-weight: 900;
+}
+.content .sidebar a:nth-child(1) img{
+    width: 60px;
+    height: unset;
 }
 
 .content .sidebar a img{
@@ -132,28 +131,51 @@ body{
     transition: all .3s ease;
 }
 
-.content .sidebar a:nth-child(1) img{
-    width: 60px;
-    height: unset;
-}
-
+/* links hover effect but not on logo */
 .content .sidebar a:hover:not(:nth-child(1)){
     background: var(--secondary-color);
 }
 
-/* Styles for the active playlist and icon */
-.content .sidebar a.active:not(:nth-child(1)){
-    transform: translateX(15px);
-}
-
-/* Styles for the playing playlist icon */
+/* Styles for the currently playing playlist */
 .content .sidebar a.playing i {
-    color: var(--accent-color);
-    scale: 1.1;
+    display: none; /* hides the original icon */
 }
 
-.mobile-navbar{
-    display: none;
+.content .sidebar a.playing .sound-bars{
+    display: inline-block; /* shows the sound bars */
+}
+
+.content .sidebar a .sound-bars{
+    position: relative;
+    width: 15px;
+    height: 15px;
+    display: none; /* initially hidden */
+}
+
+.content .sidebar a .sound-bars .bar{
+    width: 3px;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, #800080, var(--accent-color));
+    position: absolute;
+    bottom: 0;
+    animation: dance .5s ease alternate infinite;
+}
+
+.content .sidebar a .sound-bars .bar.bar1{
+    animation-delay: .1s; /* allows for initial height to work */
+    height: 70%; /* set initial height so it looks like a soundwave on page load before animation is played */
+    left: 0;
+}
+.content .sidebar a .sound-bars .bar.bar2{
+    height: 40%;
+    animation-delay: .3s;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.content .sidebar a .sound-bars .bar.bar3{
+    height: 90%;
+    animation-delay: .5s;
+    right: 0;
 }
 
 
@@ -164,10 +186,11 @@ body{
 .content .window{
     flex-grow: 1;
     background: var(--primary-color);
-    padding: 50px 50px 0 50px;
+    padding: 50px 50px 0 50px; 
     overflow: hidden; /* hides overflowing songs */
 }
 
+/* Home Section */
 .content .window .home{
     display: flex;
     flex-direction: column;
@@ -186,6 +209,7 @@ body{
     height: 300px;
 }
 
+/* Heading of each Playlist */
 .content .window .playlist .top{
     display: flex;
     align-items: center;
@@ -201,7 +225,8 @@ body{
     height: 100px;
 }
 
-.content .window .playlist .top .wrapper{ /* wrapper for Text */
+/* wrapper for Text */
+.content .window .playlist .top .wrapper{
     display: flex; 
     flex-direction: column;
     font-size: 1.5rem;
@@ -214,46 +239,87 @@ body{
 }
 
 .content .window .playlist .songs{
+    max-height: calc(100vh - 340px); /* Adjust according to the size of other elements in the window like playlists heading and playBar*/
     overflow-y: auto; /* adds scrollbar if songs exceed the height */
-    max-height: calc(100vh - 340px); /* Adjust according to the size of other elements in the window */
-}
-
-/* Scrollbar Styling */
-.songs {
     scrollbar-width: thin; /* Makes the scrollbar thinner */
     scrollbar-color: var(--accent-color) var(--primary-color); /* Thumb color, track color */
 }
 
+/* song links */
 .content .window .playlist .songs a{
     display: grid;
     grid-template-columns: .5fr 1fr 2fr 2fr 70px; /* width of each column */
     align-items: center;
     font-size: 1.2rem;
-    padding: 10px;
+    padding: 10px; /* better UX */
     margin-bottom: 10px;
     transition: all 0.5s ease;
 }
 
 .content .window .playlist.favoriten .songs a{
-    grid-template-columns: .5fr 1fr 2fr 2fr 1fr 20px; /* adds one more column for the X icon */
+    grid-template-columns: .5fr 1fr 2fr 2fr 1fr 20px; /* adds one more column for the X icon in favoriten playlist */
 }
 
-.content .window .playlist .songs a span:nth-child(3) i{
-    display: none; /* displayed only on mobile */
+.content .window .playlist .songs a span:nth-child(4) i{
+    display: none; /* mobile version of song artist element initialy hidden */
 }
 
+/* highlight song links */
 .content .window .playlist .songs a:hover{
     background: var(--secondary-color);
 }
 
+/* song cover img */
 .content .window .playlist .songs a img{
     width: 32px;
     height: 32px;
     border-radius: 50%;
 }
 
-.playing-song {
+/* Styles for the currently playing song */
+.content .window .playlist .songs a.playing-song {
     color: var(--accent-color);
+}
+
+.content .window .playlist .songs a.playing-song span:nth-child(1) {
+    display: none; /* hides the original number listing */
+}
+
+.content .window .playlist .songs a.playing-song .sound-bars{
+    display: inline-block; /* shows the sound bars */
+}
+
+.content .window .playlist .songs a .sound-bars{
+    position: relative;
+    width: 15px;
+    height: 15px;
+    display: none; /* initially hidden */
+}
+
+.content .window .playlist .songs a .sound-bars .bar{
+    width: 3px;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, #800080, var(--accent-color));
+    position: absolute;
+    bottom: 0;
+    animation: dance .5s ease alternate infinite;
+}
+
+.content .window .playlist .songs a .sound-bars .bar.bar1{
+    animation-delay: .1s; /* allows for initial height to work */
+    height: 70%; /* set initial height so it looks like a soundwave on page load before animation is played */
+    left: 0;
+}
+.content .window .playlist .songs a .sound-bars .bar.bar2{
+    height: 40%;
+    animation-delay: .3s;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.content .window .playlist .songs a .sound-bars .bar.bar3{
+    height: 90%;
+    animation-delay: .5s;
+    right: 0;
 }
 
 
@@ -272,6 +338,7 @@ body{
     z-index: 1000;
 }
 
+/* current song details */
 .play-bar .song{
     display: flex;
     align-items: center;
@@ -284,6 +351,7 @@ body{
     border-radius: 50%;
 }
 
+/* wrapper for name and artist */
 .play-bar .song .info{
     display: flex;
     flex-direction: column;
@@ -304,10 +372,10 @@ body{
     flex-direction: column;
     gap: 20px;
     align-items: center;
-    position: absolute; /* centers it so it doesnt shift around when the song name is long */
+    position: absolute; /* puts it absolute position so it doesnt shift around when the song name is longer or shorter */
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); /* centers it */
 }
 
 .play-bar .navigation .buttons{
@@ -329,7 +397,8 @@ body{
     cursor: pointer;
 }
 
-.play-bar .navigation .wrapper{ /* wrapper for the progress bar and time stamps */
+/* wrapper for the progress bar and time stamps */
+.play-bar .navigation .wrapper{
     display: flex;
     align-items: center;
     gap: 30px;
@@ -353,6 +422,7 @@ body{
     transition: width 0.1s linear;
 }
 
+/* like and mute controls */
 .play-bar .controls{
     display: flex;
     gap: 25px;
@@ -368,12 +438,14 @@ body{
     transition: color 0.3s ease;
 }
 
+/* animated class is added onclick by js and plays heartBeat animation */
 .play-bar .controls i.fa-heart.animated {
-    animation: heartBeat 0.6s; /* animated class is added onclick by js and plays heartBeat animation */
+    animation: heartBeat 0.6s;
 }
 
+/* favorited class is added by js if song is in favorites playlist and highlights the icon */
 .play-bar .controls i.fa-heart.favorited {
-    color: red; /* favorited class is added if song is in favorites playlist by js */
+    color: red;
 }
 
 @keyframes heartBeat {
@@ -388,10 +460,12 @@ body{
     }
 }
 
+/* mobile version initialy hidden */
 .progress-bar.mobile{
     display: none;
 }
 
+/* mobile version initialy hidden */
 .mobile-playBar-navigation{
     display: none;
 }
@@ -413,15 +487,15 @@ body{
 @media screen and (max-width: 1250px){
     /* full height window */
     .content {
-        height: 100vh;
+        height: 100svh;
         max-height: unset;
     }
 
     .content .window .home{
-        padding-bottom: 50px; /* adds padding to the home bottom to center the content since the window has top padding and not bot */
+        padding-bottom: 50px; /* adds padding to the bottom to center the content verticaly since the window has top padding and not bot */
     }
 
-    /* full screens sidebar which will be openable with a mobile navbar */
+    /* full screens "sidebar" which will be navigable with the mobile navbar */
     .content .sidebar{
         position: fixed;
         width: 100%;
@@ -431,7 +505,7 @@ body{
         display: flex;
         align-items: center;
         justify-content: center;
-        display: none;
+        display: none; /* initially hidden */
     }
 
     /* wrapper to center the playlist links */
@@ -444,6 +518,7 @@ body{
         padding: 20px;
     }
     
+    /* song link */
     .content .sidebar a{
         width: 200px;
         margin: 0;
@@ -454,24 +529,19 @@ body{
         display: none;
     }
 
-    /* deletes the highlight shift when we use the mobile version of the sidebar */
-    .content .sidebar a.active:not(:nth-child(1)){
-        transform: translateX(0px);
-    }
-
-
-    /* nav between playlists and home */
+    /* navbar between playlists and home */
     .content .mobile-navbar{
         background: var(--secondary-color);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
         position: fixed;
-        top: 0px;
+        gap: 10px;
+        top: 8px;
         left: 50%;
         transform: translateX(-50%);
-        border-radius: 0px 0px 10px 10px;
+        border-radius: 50px;
+        padding: 0 20px;
     }
 
     .content .mobile-navbar div a{
@@ -479,7 +549,7 @@ body{
         flex-direction: column;
         gap: 7px;
         align-items: center;
-        padding: 10px 30px;
+        padding: 10px 20px;
     }
 
     .content .mobile-navbar div span{
@@ -500,8 +570,7 @@ body{
         left: 5px;
         right: 5px;
         border-radius: 10px;
-        border-top: none;
-        display: none;
+        transition: all 0.5s ease;
     }
 
     .content .window .home h1{
@@ -562,14 +631,16 @@ body{
 
 
 @media screen and (max-width: 950px){
+    /* adds padding to the top of the page to create space for the mobile navbar */
     .window{
-        padding-top: 100px !important; /* adds padding to the top to make space for the mobile navbar */
+        padding-top: 100px !important;
     }
 
     .content .window .home{
-        padding-bottom: 100px; /* adds padding to the home bottom to center the content since the window has top padding and not bot */
+        padding-bottom: 100px; /* adjust bottom padding to keep content centered verticaly */
     }
 
+    /* smaller Headings */
     .content .window .playlist .top{
         padding-bottom: 20px;
         margin-bottom: 20px;
@@ -581,10 +652,12 @@ body{
         overflow: hidden; /* hides the overflowing ends of the progress bar */
     }
 
+    /* hide the desktop progress bar */
     .play-bar .navigation .wrapper{
-        display: none; /* hides the desktop progress bar */
+        display: none;
     }
 
+    /* show mobile progress bar */
     .progress-bar.mobile{
         display: block;
         position: absolute;
@@ -596,10 +669,11 @@ body{
 }
 
 @media screen and (max-width: 870px){
-    /* deleted the song artist bc of space */
-    .content .window .playlist .songs a span:nth-child(4){
+    /* deleted the song artist on song links bc of space */
+    .content .window .playlist .songs a span:nth-child(5){
         display: none;
     }
+    /* adjust grid template */
     .content .window .playlist .songs a{
         grid-template-columns: .5fr 1fr 2fr 70px;
     }
@@ -611,19 +685,20 @@ body{
         left: 57%; /* moves it a bit to the right */
     }
 
+    /* smaller padding */
     .play-bar{
         padding: 20px;
     }
 
-    /* mobile artist display */
-    .content .window .playlist .songs a span:nth-child(3){ 
+    /* mobile version artist displayed beyond the song name in the same span */
+    .content .window .playlist .songs a span:nth-child(4){ 
         display: flex;
-        flex-direction: column; /* Song Name and artist above each other on mobile */
+        flex-direction: column;
         gap: 5px;
     }
     
     /* mobile artist element */
-    .content .window .playlist .songs a span:nth-child(3) i{
+    .content .window .playlist .songs a span:nth-child(4) i{
         display: inline-block; /* shows it */
         font-size: .8rem;
         color: rgb(137, 137, 137);
@@ -637,7 +712,7 @@ body{
 }
 
 @media screen and (max-width: 650px){
-    /* change grid space and less side padding */
+    /* adjust grid space */
     .content .window .playlist .songs a{
         grid-template-columns: .5fr 1fr 3fr 70px;
     }
@@ -650,38 +725,39 @@ body{
 
     .play-bar .navigation .buttons #prev,
     .play-bar .navigation .buttons #next{
-        display: none; /* hides the prev and next buttons */
+        display: none; /* hides the prev and next buttons bc of space*/
     }
     
     .play-bar .navigation{
-        left: auto;
+        left: unset;
         right: 45px; /* moves play button to the right next to the fav button */
     }
+
     .play-bar .controls #volume-control{
         display: none; /* hides the volume control */
     }
 
+    /* shift class is added by js if we click on the playBar and it moves it up to show the mobile playBar Navigation with the prev, next and mute buttons */
+    .play-bar.shift{
+        bottom: 65px;
+    }
+
+    /* mobile version navigation initialy hidden behind the playbar */
     .mobile-playBar-navigation{
+        opacity: 0;
         position: fixed;
-        bottom: 20px;
+        bottom: 5px;
         left: 50%;
-        transform: translateX(-50%) rotate(180deg);
+        transform: translateX(-50%);
+        padding: 0 40px;
         background: var(--secondary-color);
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        display: block;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        border-radius: 10px;
         transition: all 1s ease;
-    }
-
-    .mobile-playBar-navigation.active{
-        transform: translateX(-50%) rotate(360deg);
-        bottom: 50px;
-    }
-
-    .mobile-playBar-navigation.active button{
-        pointer-events: all;
-        opacity: 1;
     }
 
     .mobile-playBar-navigation button{
@@ -696,91 +772,70 @@ body{
         justify-content: center;
         border: none;
         cursor: pointer;
-        position: absolute;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 1s ease;
-    }
-
-    .mobile-playBar-navigation i#view-more{
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 0px;
-        color: var(--accent-color);
-        font-size: 1.2rem;
-        padding: 5px 30px;
-    }
-
-    .mobile-playBar-navigation button.prev{
-        left: 0;
-        top: 30%;
-        transform: translate(-50%, -50%);
-    }
-    .mobile-playBar-navigation button.next{
-        right: 0;
-        top: 30%;
-        transform: translate(50%, -50%);
-    }
-    .mobile-playBar-navigation button.volume-control{
-        left: 50%;
-        top: 0;
-        transform: translate(-50%, -50%);
     }
 }
 
 @media screen and (max-width: 500px) {
-    /* deletes song duration bc of space */
-    .content .window .playlist .songs a span:nth-child(5){
+    /* hides song duration on song links bc of space */
+    .content .window .playlist .songs a span:nth-child(6){
         display: none;
     }
+    /* adjust grid template */
     .content .window .playlist .songs a{
         grid-template-columns: .5fr 1fr 2fr;
     }
     .content .window .playlist.favoriten .songs a{
         grid-template-columns: .5fr 1fr 2fr 20px;
     }
+    /* smaller font */
     .content .window .playlist .songs a{
         font-size: 1.1rem;
     }
 }
 
 @media screen and (max-width: 450px){
+    /* smaller buttons */
     .play-bar .navigation .buttons button{
         width: 30px;
         height: 30px;
     }
+    .mobile-playBar-navigation button{
+        width: 30px;
+        height: 30px;
+    }
     .play-bar .navigation{
-        right: 45px; /* moves play button to the right next to the fav button */
+        right: 45px; /* adjusts the position of the play button */
     }
 }
 
 @media screen and (max-width: 410px){
+    /* smaller font */
     .content .window .playlist .songs a{
         font-size: 1rem;
     }
 
+    /* smaller playlists headings */
     .content .window .playlist .top{
+        padding-bottom: 0px;
+        margin-bottom: 30px;
+        height: 100px;
         gap: 30px;
+    }
+    .content .window .playlist .top .wrapper{
+        font-size: 1.3rem;
     }
     .content .window .playlist .top img{
         width: 80px;
         height: 80px;
     }
-    .content .window .playlist .top .wrapper{
-        font-size: 1.3rem;
-    }
     .content .window .playlist .top .wrapper h2{
         font-size: 2.5rem;
     }
-    .content .window .playlist .top{
-        padding-bottom: 0px;
-        margin-bottom: 30px;
-        height: 100px;
-    }
+    
 
+    /* more height for songs since heading is smaller*/
     .content .window .playlist .songs{
-        max-height: calc(100vh - 330px); /* more height since top text is smaller*/
+        max-height: calc(100vh - 330px); 
     }
 
     /* more space available for the song name */
@@ -795,38 +850,39 @@ body{
         padding-left: 10px; /* reduced */
     }
     .play-bar .song{
-        gap: 10px;
+        gap: 10px; /* reduced */
     }
 
+    /* rules for song names that are too long to show fully */
     .play-bar .song .info span.name{
-        max-width: 150px; 
-        white-space: nowrap;
+        max-width: 150px;  /* limits the width */
+        white-space: nowrap; /* prevents the text from wrapping */
         overflow: hidden;
         text-overflow: ellipsis; /* adds ... if the text overflows */
     }
 }
 
 @media screen and (max-width: 320px){
+    /* smaller playlist headings */
     .content .window .playlist .top{
+        padding-bottom: 0px;
+        margin-bottom: 30px;
+        height: 80px;
         gap: 20px;
+    }
+    .content .window .playlist .top .wrapper{
+        font-size: 1.2rem;
     }
     .content .window .playlist .top img{
         width: 70px;
         height: 70px;
     }
-    .content .window .playlist .top .wrapper{
-        font-size: 1.2rem;
-    }
     .content .window .playlist .top .wrapper h2{
         font-size: 2rem;
     }
-    .content .window .playlist .top{
-        padding-bottom: 0px;
-        margin-bottom: 30px;
-        height: 80px;
-    }
-
+    
+    /* more height for songs since heading is smaller*/
     .content .window .playlist .songs{
-        max-height: calc(100vh - 310px); /* more height since top text is smaller*/
+        max-height: calc(100vh - 310px);
     }
 }

@@ -288,6 +288,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSongIndex = 0;
     let playingPlaylistName = '';
     let playingSong = null;
+    const body = document.querySelector('body');
+    const mobilePlayBarNavigation = document.querySelector('.mobile-playBar-navigation');
+    const mobilePlayBarNavigationButtons = document.querySelectorAll(".mobile-playBar-navigation button");
 
     // loads the clicked song into the playBar and updates its information
     function loadSong(song) {
@@ -311,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
         playButton.innerHTML = '<i class="fas fa-play"></i>'; // Set to play icon initially
         // Update favorite button state
         updateFavoriteButtonState();
-        playBar.style.display = 'flex'; // Show playBar
     }
 
     // function to highlight the currently playing song in its playlist
@@ -328,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // function to update the playing playlist icon
+    // function to change the playing playlist icon to sound bars
     function updatePlayingPlaylistIcon() {
         document.querySelectorAll('.sidebar a').forEach(link => {
             link.classList.remove('playing');
@@ -339,16 +341,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // starts the sound bars animation when the song is playing
+
+    function startAnimations() {
+        document.querySelectorAll('.sound-bars .bar').forEach(bar => {
+            bar.style.animationPlayState = 'running';
+        });
+    }
+
+    // pauses the sound bars animation when the song is paused
+    function pauseAnimations() {
+        document.querySelectorAll('.sound-bars .bar').forEach(bar => {
+            bar.style.animationPlayState = 'paused';
+        });
+    }
+
+    audioPlayer.addEventListener('pause', pauseAnimations);
+    audioPlayer.addEventListener('play', startAnimations);
+
     // function to play the song and change the play button icon
     function playSong() {
         audioPlayer.play();
         playButton.innerHTML = '<i class="fas fa-pause"></i>';
+        startAnimations(); // starts the sound bars animation
     }
 
     // function to pause the song and change the play button icon
     function pauseSong() {
         audioPlayer.pause();
         playButton.innerHTML = '<i class="fas fa-play"></i>';
+        pauseAnimations(); // pauses the sound bars animation
     }
 
     // function to play the previous song in the playlist if there is one
@@ -396,12 +418,6 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', (e) => {
             e.preventDefault(); // prevent the default behavior of the link (reload the page)
             const targetClass = link.getAttribute('data-target'); // each link has a data-target attribute that contains the class of the section that should be shown in the window
-
-            // Remove 'active' class from all links
-            links.forEach(link => link.classList.remove('active'));
-
-            // Add 'active' class to the clicked link
-            link.classList.add('active');
 
             // Hide all sections (playlists) in the window
             sections.forEach(section => {
@@ -610,6 +626,11 @@ document.addEventListener('DOMContentLoaded', () => {
             songElement.href = '#';
             songElement.innerHTML = `
                 <span>${index + 1}</span>
+                <div class="sound-bars">
+                    <div class="bar bar1"></div>
+                    <div class="bar bar2"></div>
+                    <div class="bar bar3"></div>
+                </div>
                 <img src="${song.cover}" alt="${song.title}">
                 <span>${song.title} <i class="artist">${song.artist}</i></span>
                 <span>${song.artist}</span>
@@ -651,6 +672,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentSongIndex = savedSong.index;
         loadSong(savedSong.song);
         playButton.innerHTML = '<i class="fas fa-play"></i>'; // Set to play icon on page load
+        pauseAnimations(); // make sure the sound bars animation is paused on page load
     }
 
     // Adds a MutationObserver to the playlists to update the song links when the playlist changes
@@ -664,19 +686,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // Mobile play bar navigation
-    const body = document.querySelector('body');
-    const mobilePlayBarNavigationViewMoreBtn = document.querySelector('.mobile-playBar-navigation #view-more');
-    const mobilePlayBarNavigation = document.querySelector('.mobile-playBar-navigation');
-    const mobilePlayBarNavigationButtons = document.querySelectorAll(".mobile-playBar-navigation button");
-
-    mobilePlayBarNavigationViewMoreBtn.addEventListener('click', () => {
-        mobilePlayBarNavigation.classList.add("active") // class rotates the navigation and shows navigation items
+    // Mobile play bar navigation shown when clicking on the play bar
+    playBar.addEventListener('click', (e) => {
+        if (e.target !== favoriteButton && e.target !== progressBarMobile && e.target !== progressMobile) {
+            playBar.classList.add("shift");
+            mobilePlayBarNavigation.style.opacity = 1;
+        }
     });
-
+    
     body.addEventListener('click', (e) => {
         if (!mobilePlayBarNavigation.contains(e.target) && !playBar.contains(e.target)) {
-            mobilePlayBarNavigation.classList.remove("active");
+            playBar.classList.remove("shift");
+            mobilePlayBarNavigation.style.opacity = 0;
         }
     });
 
