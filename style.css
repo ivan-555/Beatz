@@ -240,7 +240,7 @@ body{
 }
 
 .content .window .playlist .songs{
-    max-height: calc(100vh - 340px); /* Adjust according to the size of other elements in the window like playlists heading and playBar*/
+    max-height: calc(100svh - 340px); /* Adjust according to the size of other elements in the window like playlists heading and playBar*/
     overflow-y: auto; /* adds scrollbar if songs exceed the height */
     scrollbar-width: thin; /* Makes the scrollbar thinner */
     scrollbar-color: var(--accent-color) var(--primary-color); /* Thumb color, track color */
@@ -838,7 +838,7 @@ body{
 
     /* more height for songs since heading is smaller*/
     .content .window .playlist .songs{
-        max-height: calc(100vh - 330px); 
+        max-height: calc(100svh - 330px); 
     }
 
     /* more space available for the song name */
@@ -886,6 +886,6 @@ body{
     
     /* more height for songs since heading is smaller*/
     .content .window .playlist .songs{
-        max-height: calc(100vh - 310px);
+        max-height: calc(100svh - 310px);
     }
 }
