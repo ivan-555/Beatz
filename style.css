@@ -104,7 +104,7 @@ body{
 .content .sidebar a{
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 25px;
     width: 90%;
     margin: auto;
     margin-bottom: 20px;
@@ -114,7 +114,7 @@ body{
 
 /* logo */
 .content .sidebar a:nth-child(1){
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     font-size: 2rem;
     font-weight: 900;
 }
@@ -197,17 +197,17 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 50px;
+    gap: 10px;
     height: 100%;
 }
 
 .content .window .home h1{
-    font-size: 7rem;
+    font-size: 5rem;
     font-weight: 900;
 }
 
 .content .window .home img{
-    height: 300px;
+    height: 200px;
 }
 
 /* Heading of each Playlist */
@@ -219,11 +219,6 @@ body{
     margin-bottom: 30px;
     border-bottom: 1px dotted var(--accent-color);
     height: 150px;
-}
-
-.content .window .playlist .top img{
-    width: 100px;
-    height: 100px;
 }
 
 /* wrapper for Text */
@@ -576,11 +571,11 @@ body{
     }
 
     .content .window .home h1{
-        font-size: 5rem;
+        font-size: 4rem;
     }
     
     .content .window .home img{
-        height: 200px;
+        height: 150px;
     }
 
     .play-bar .navigation{
@@ -827,10 +822,6 @@ body{
     .content .window .playlist .top .wrapper{
         font-size: 1.3rem;
     }
-    .content .window .playlist .top img{
-        width: 80px;
-        height: 80px;
-    }
     .content .window .playlist .top .wrapper h2{
         font-size: 2.5rem;
     }
@@ -875,10 +866,6 @@ body{
     }
     .content .window .playlist .top .wrapper{
         font-size: 1.2rem;
-    }
-    .content .window .playlist .top img{
-        width: 70px;
-        height: 70px;
     }
     .content .window .playlist .top .wrapper h2{
         font-size: 2rem;

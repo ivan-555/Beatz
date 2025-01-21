@@ -2,7 +2,7 @@
 window.addEventListener('load', function() {
     const preloader = document.getElementById('preloader');
     
-    // wait min 2 seconds before hiding the preloader
+    // wait min x seconds before hiding the preloader
     setTimeout(function() {
         preloader.classList.add('hidden');
     }, 1000);
