@@ -527,7 +527,6 @@ body{
 
     /* navbar between playlists and home */
     .content .mobile-navbar{
-        background: var(--secondary-color);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -544,9 +543,19 @@ body{
     .content .mobile-navbar div a{
         display: flex;
         flex-direction: column;
-        gap: 7px;
         align-items: center;
-        padding: 10px 20px;
+        justify-content: center;
+        gap: 7px;
+        border-radius: 20%;
+        background: var(--secondary-color);
+        padding: 15px;
+        scale: 0.8;
+        transition: all 0.5s ease;
+    }
+
+    .content .mobile-navbar div a.active{
+        background: var(--accent-color);
+        scale: 1;
     }
 
     .content .mobile-navbar div span{

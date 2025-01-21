@@ -453,6 +453,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     mobileNavbarHomeLink.addEventListener('click', (e) => {
         e.preventDefault(); // prevent the default behavior of the link (reload the page)
+
+        // Add 'active' class to the clicked link
+        mobileNavbarHomeLink.classList.add('active');
+        mobileNavbarPlaylistsLink.classList.remove('active');
         
         // Remove 'active' class from all links
         links.forEach(link => link.classList.remove('active'));
@@ -477,6 +481,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     mobileNavbarPlaylistsLink.addEventListener('click', (e) => {
         e.preventDefault(); // prevent the default behavior of the link (reload the page)
+
+        // Add 'active' class to the clicked link
+        mobileNavbarHomeLink.classList.remove('active');
+        mobileNavbarPlaylistsLink.classList.add('active');
+        
         sidebar.style.display = 'flex';
     });
 
